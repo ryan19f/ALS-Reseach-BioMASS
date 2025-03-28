@@ -19,6 +19,9 @@ ALS data is collected using LiDAR-equipped UAVs or aircraft scanning forested re
 ## 3. Ground Classification
 Ground classification is a critical step in biomass estimation. Algorithms like PMF and CSF help separate ground and non-ground points efficiently. These methods refine the point cloud data, ensuring accurate height calculations necessary for biomass modeling ([Heiskanen et al., 2012](https://www.sciencedirect.com/science/article/abs/pii/S0034425712002787)).
 
+![Screen Shot 2025-03-27 at 23 20 13 PM](https://github.com/user-attachments/assets/8fd0e1dc-a48d-46ef-b63e-0a219aaf0020)
+
+
 ## 4. Biomass Estimation Techniques
 To estimate biomass, tree height, crown area, and canopy volume are extracted from ALS point cloud data. Allometric equations are applied to calculate above-ground biomass (AGB) ([Gonzalez-Ferreiro et al., 2015](https://cbmjournal.biomedcentral.com/articles/10.1186/s13021-015-0037-2)). Machine learning models, including Random Forest (RF) and Support Vector Regression (SVR), have been shown to improve accuracy compared to traditional parametric methods ([Vastaranta et al., 2012](https://iforest.sisef.org/abstract/?id=ifor2735-012)).
 
