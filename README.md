@@ -10,6 +10,9 @@ This report explores the use of Airborne Laser Scanning (ALS) for estimating for
 ## 1. Introduction
 Forest biomass estimation plays a crucial role in carbon stock assessment, forest management, and climate change studies. Traditional field-based measurements are time-consuming and labor-intensive. ALS technology provides a cost-effective and efficient alternative, allowing for large-scale biomass estimation with high accuracy ([Zhao et al., 2024](https://www.sciencedirect.com/science/article/pii/S1470160X24009749)).
 
+![image](https://github.com/user-attachments/assets/1a51ff54-a2a9-421a-8289-30bf74ad2903)
+
+
 ## 2. Data Acquisition and Preprocessing
 ALS data is collected using LiDAR-equipped UAVs or aircraft scanning forested regions ([Korhonen et al., 2023](https://cbmjournal.biomedcentral.com/articles/10.1186/s13021-023-00222-4)). The obtained point cloud data undergoes preprocessing, which includes noise filtering, normalization, and georeferencing. Advanced filtering techniques such as Progressive Morphological Filtering (PMF) and Cloth Simulation Filtering (CSF) are widely used to classify ground and non-ground points ([Yu et al., 2012](https://www.sciencedirect.com/science/article/abs/pii/S0034425712002787)).
 
