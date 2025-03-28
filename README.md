@@ -43,18 +43,11 @@ The estimated biomass is validated using field-based measurements and statistica
 ALS has revolutionized forest biomass estimation, offering a non-destructive, scalable, and accurate approach. Future research should focus on improving data fusion techniques, incorporating AI-driven models, and integrating temporal ALS acquisitions to monitor biomass dynamics more effectively.
 
 ## 8. References
-1. **Zhao et al., 2024** - *"Airborne LiDAR for Biomass Estimation: Advances and Challenges"*  
-   [Link](https://www.sciencedirect.com/science/article/pii/S1470160X24009749)  
-2. **Korhonen et al., 2023** - *"Forest Biomass Estimation with Airborne Laser Scanning: A Review of Methods and Applications"*  
-   [Link](https://cbmjournal.biomedcentral.com/articles/10.1186/s13021-023-00222-4)  
-3. **Yu et al., 2012** - *"LiDAR Point Cloud Classification Using Progressive Morphological Filtering"*  
-   [Link](https://www.sciencedirect.com/science/article/abs/pii/S0034425712002787)  
-4. **Heiskanen et al., 2012** - *"Ground Classification and Biomass Estimation Using Airborne Laser Scanning Data"*  
-   [Link](https://www.sciencedirect.com/science/article/abs/pii/S0034425712002787)  
-5. **Gonzalez-Ferreiro et al., 2015** - *"Use of ALS-Derived Metrics for Estimating Above-Ground Biomass in Forest Ecosystems"*  
-   [Link](https://cbmjournal.biomedcentral.com/articles/10.1186/s13021-015-0037-2)  
-6. **Vastaranta et al., 2012** - *"Applying Machine Learning Algorithms to Improve Biomass Estimation from ALS Data"*  
-   [Link](https://iforest.sisef.org/abstract/?id=ifor2735-012)  
-7. **Zhang et al., 2021** - *"Integrating Multispectral and ALS Data for Enhanced Forest Biomass Prediction"*  
-   [Link](https://www.nature.com/articles/s41598-021-81267-8)
+1. **Zhao et al., 2024** - *"Airborne LiDAR for Biomass Estimation: Advances and Challenges"*  [Link](https://www.sciencedirect.com/science/article/pii/S1470160X24009749)  
+2. **Korhonen et al., 2023** - *"Forest Biomass Estimation with Airborne Laser Scanning: A Review of Methods and Applications"*  [Link](https://cbmjournal.biomedcentral.com/articles/10.1186/s13021-023-00222-4)  
+3. **Yu et al., 2012** - *"LiDAR Point Cloud Classification Using Progressive Morphological Filtering"*  [Link](https://www.sciencedirect.com/science/article/abs/pii/S0034425712002787)  
+4. **Heiskanen et al., 2012** - *"Ground Classification and Biomass Estimation Using Airborne Laser Scanning Data"*  [Link](https://www.sciencedirect.com/science/article/abs/pii/S0034425712002787)  
+5. **Gonzalez-Ferreiro et al., 2015** - *"Use of ALS-Derived Metrics for Estimating Above-Ground Biomass in Forest Ecosystems"*   [Link](https://cbmjournal.biomedcentral.com/articles/10.1186/s13021-015-0037-2)  
+6. **Vastaranta et al., 2012** - *"Applying Machine Learning Algorithms to Improve Biomass Estimation from ALS Data"*  [Link](https://iforest.sisef.org/abstract/?id=ifor2735-012)  
+7. **Zhang et al., 2021** - *"Integrating Multispectral and ALS Data for Enhanced Forest Biomass Prediction"*  [Link](https://www.nature.com/articles/s41598-021-81267-8)
 
