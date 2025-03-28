@@ -1,4 +1,4 @@
-# ALS-Reseach-BioMASS(Midterm Project Report)
+# (Midterm Project Report)
 
 ## Forest Ground Biomass Detection Using ALS Point Cloud
 **By: Rhutvik Prashant Pachghare, Ryan Fernandes & Shyam Ganatra**
