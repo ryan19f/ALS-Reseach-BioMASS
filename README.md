@@ -25,6 +25,8 @@ Ground classification is a critical step in biomass estimation. Algorithms like 
 ## 4. Biomass Estimation Techniques
 To estimate biomass, tree height, crown area, and canopy volume are extracted from ALS point cloud data. Allometric equations are applied to calculate above-ground biomass (AGB) ([Gonzalez-Ferreiro et al., 2015](https://cbmjournal.biomedcentral.com/articles/10.1186/s13021-015-0037-2)). Machine learning models, including Random Forest (RF) and Support Vector Regression (SVR), have been shown to improve accuracy compared to traditional parametric methods ([Vastaranta et al., 2012](https://iforest.sisef.org/abstract/?id=ifor2735-012)).
 
+Biomass estimation often uses allometric equations, which relate biomass to easily measurable tree characteristics like diameter at breast height (DBH) and height, following the general form of Biomass = a * (DBH^b * H^c), where a, b, and c are parameters specific to the species and ecosystem
+
 ## 5. Validation and Accuracy Assessment
 The estimated biomass is validated using field-based measurements and statistical comparisons. Studies show that integrating ALS data with multispectral or hyperspectral imagery enhances prediction accuracy ([Zhang et al., 2021](https://www.nature.com/articles/s41598-021-81267-8)). Accuracy is evaluated using metrics such as RMSE (Root Mean Squared Error) and R^2 values, which indicate model reliability ([Heiskanen et al., 2012](https://www.sciencedirect.com/science/article/abs/pii/S0034425712002787)).
 
