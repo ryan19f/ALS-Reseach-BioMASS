@@ -2,7 +2,7 @@
 
 ## Forest Ground Biomass Detection Using ALS Point Cloud
 
-**By:** Rhutvik Prashant Pachghare, Ryan Fernandes & Shyam Ganatra
+**By:** Rhutvik Prashant Pachghare, Ryan Fernandes, Vamshikrishna Gadde & Shyam Ganatra
 
 ## Abstract
 This report explores the use of Airborne Laser Scanning (ALS) for estimating forest biomass. ALS provides high-resolution three-dimensional (3D) data, enabling precise calculations of tree height, canopy structure, and biomass distribution. Recent advancements in data processing and machine learning have improved estimation accuracy. This report outlines the workflow from data acquisition to validation while incorporating recent research findings to enhance the methodology.
