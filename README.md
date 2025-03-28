@@ -34,6 +34,9 @@ The estimated biomass is validated using field-based measurements and statistica
 1. **Data Acquisition**
    - UAV or aircraft equipped with LiDAR scans a forested area.
    - Collects high-resolution 3D point cloud data.
+   ![x500_lidar_down B_RHQ1hy](https://github.com/user-attachments/assets/6b59782c-3319-427c-9e28-9f4286d34bf2)
+
+
 2. **Preprocessing**
    - Filters out noise and irrelevant points.
    - Enhances data quality for further processing.
