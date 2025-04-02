@@ -33,27 +33,27 @@ Accuracy metrics such as RMSE and R² to assess model reliability.
 
 ## 6. Conceptual Workflow of Biomass Estimation
 
-Data Acquisition
+## * Data Acquisition
 
-UAV-based photogrammetry captures aerial images.
+  UAV-based photogrammetry captures aerial images.
 
-Point cloud generated using SfM techniques.
+  Point cloud generated using SfM techniques.
 
-Simulated LiDAR data for validation.
+  Simulated LiDAR data for validation.
 
-Preprocessing
+## * Preprocessing
 
 Noise filtering and normalization.
 
 Ground classification using PMF and CSF.
 
-Biomass Estimation
+## * Biomass Estimation
 
 Extract tree height and canopy structure.
 
 Apply allometric equations and machine learning models.
 
-Validation
+## * Validation
 
 Compare photogrammetry-based biomass estimates with field data.
 
