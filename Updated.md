@@ -1,6 +1,6 @@
 # Forest Ground Biomass Detection Using Photogrammetric Point Cloud
 
-**By: Rhutvik Prashant Pachghare, Ryan Fernandes, Vamshikrishna Gadde & Shyam Ganatra**
+**By: Rhutvik Prashant Pachghare, Ryan Fernandes & Shyam Ganatra**
 
 ## Abstract  
 This report explores the use of **photogrammetrically generated point clouds** for estimating forest biomass. While **Airborne Laser Scanning (ALS)** provides high-resolution 3D data, it is often inaccessible for direct testing. Instead, this study focuses on using photogrammetry-based point clouds as an alternative, generated through UAV-based imagery. Additionally, simulations using LiDAR-equipped drones will be explored to validate methodologies. The workflow, from data acquisition to validation, is outlined, integrating recent advancements in data processing and machine learning to enhance biomass estimation accuracy.
