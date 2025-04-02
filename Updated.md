@@ -8,6 +8,8 @@ This report explores the use of **photogrammetrically generated point clouds** f
 ## 1. Introduction  
 Forest biomass estimation is crucial for **carbon stock assessment, forest management, and climate change studies**. Traditional field-based measurements are labor-intensive and time-consuming. **Photogrammetric point clouds**, generated from UAV imagery, offer a cost-effective alternative to LiDAR, enabling detailed biomass estimation while maintaining accessibility for field testing.
 
+![image](https://github.com/user-attachments/assets/1a51ff54-a2a9-421a-8289-30bf74ad2903)
+
 ## 2. Data Acquisition and Preprocessing  
 Point cloud data is generated using **photogrammetry** by capturing high-resolution aerial images from a UAV and processing them into a **3D model**. For validation, a simulated environment with a **LiDAR-equipped drone** will be used. Preprocessing involves:  
 - **Noise filtering, normalization, and georeferencing** to ensure data accuracy.  
@@ -16,6 +18,8 @@ Point cloud data is generated using **photogrammetry** by capturing high-resolut
 
 ## 3. Ground Classification  
 Separating ground and non-ground points is essential for accurate height estimation. **PMF and CSF** techniques are used to refine the point cloud and ensure precise tree height measurements.
+
+![Screen Shot 2025-03-27 at 23 20 13 PM](https://github.com/user-attachments/assets/8fd0e1dc-a48d-46ef-b63e-0a219aaf0020)
 
 ## 4. Biomass Estimation Techniques  
 Biomass estimation is carried out by extracting tree height, crown area, and canopy volume from the point cloud. **Allometric equations** are applied to estimate **above-ground biomass (AGB)**. Additionally, **machine learning models like Random Forest (RF) and Support Vector Regression (SVR)** improve estimation accuracy compared to traditional parametric methods. The estimation follows the general form:  
