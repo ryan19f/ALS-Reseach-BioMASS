@@ -19,10 +19,10 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='Your Name',
-    maintainer_email='you@example.com',
+    maintainer='Ryan Fernandes',
+    maintainer_email='rferna30@asu.edu',
     description='Forest sim with noise filtering and georeferencing tools',
-    license='MIT',
+    license='ASU',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
