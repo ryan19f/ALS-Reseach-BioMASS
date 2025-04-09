@@ -1,0 +1,13 @@
+<package format="3">
+  <name>forest_navigation</name>
+  <version>0.1.0</version>
+  <description>Forest simulation tools: GPS normalization, LIDAR and IMU filters.</description>
+  <maintainer email="you@example.com">Your Name</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>ament_python</buildtool_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+</package>
