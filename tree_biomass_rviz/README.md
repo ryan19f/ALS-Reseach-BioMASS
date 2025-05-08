@@ -134,6 +134,11 @@ The system produces several outputs:
 - Console logging of detected trees and their parameters
 - (In full implementation) Geospatial biomass maps and CSV data
 
+![RVIZ1](https://github.com/ryan19f/ALS-Reseach-BioMASS/blob/main/tree_biomass_rviz/rviz1.jpeg)
+Shows BioMass of each tree
+![RVIZ3](https://github.com/ryan19f/ALS-Reseach-BioMASS/blob/main/tree_biomass_rviz/rviz2.jpeg)
+![RVIZ3](https://github.com/ryan19f/ALS-Reseach-BioMASS/blob/main/tree_biomass_rviz/rviz3.jpeg)
+Pointcloud of ofrest 
 
 ## 👥 Team
 
