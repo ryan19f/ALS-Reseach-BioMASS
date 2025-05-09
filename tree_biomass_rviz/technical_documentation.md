@@ -117,8 +117,6 @@ This approach:
 - Filters cells with too few points
 - Returns each cell as a separate "tree"
 
-**Note:** This is a simplified approach. For production use, more sophisticated algorithms like DBSCAN or watershed segmentation should be implemented.
-
 ## 3. ROS 2 Integration
 
 ### 3.1 Node Registration
