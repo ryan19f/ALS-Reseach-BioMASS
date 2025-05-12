@@ -1,116 +1,174 @@
+#!/usr/bin/env python3
+
 import rclpy
 from rclpy.node import Node
-from visualization_msgs.msg import Marker, MarkerArray
-from std_msgs.msg import Header
 import numpy as np
 import laspy
 import os
-import random
+import json
+import subprocess
 from shapely.geometry import MultiPoint
+from scipy.interpolate import griddata
+from collections import defaultdict
+from sklearn.cluster import DBSCAN
+import matplotlib.pyplot as plt
+import plotly.express as px
 
-class BiomassNode(Node):
+class BiomassVisualizerNode(Node):
     def __init__(self):
-        super().__init__('biomass_node')
-        self.publisher = self.create_publisher(MarkerArray, 'tree_biomass_markers', 10)
-
-        self.get_logger().info('🌲 Tree Biomass RViz Node Started')
-        self.run_pipeline()
+        super().__init__('biomass_visualizer_node')
+        self.get_logger().info("🌲 Biomass Visualizer Node Started")
+        self.create_timer(2.0, self.run_pipeline)
 
     def run_pipeline(self):
-        las_path = os.path.expanduser('~/space_robotics_project/data/processed/downsampled_points.las')
-        self.get_logger().info(f"🔍 Loading LAS file from: {las_path}")
+        data_dir = os.path.expanduser('~/space_robotics_project/data/processed/')
+        full_las_path = os.path.join(data_dir, 'downsampled_points.las')
+        ground_las_path = os.path.join(data_dir, 'ground_only.las')
+        pipeline_json_path = os.path.join(data_dir, 'pmf_pipeline.json')
 
-        if not os.path.exists(las_path):
-            self.get_logger().error("❌ LAS file not found!")
-            return
+        if not os.path.exists(ground_las_path) or os.path.getsize(ground_las_path) < 1000:
+            self.get_logger().info("🩹 ground_only.las missing or invalid — running PMF...")
+            self.run_pmf_pipeline(full_las_path, ground_las_path, pipeline_json_path)
+        else:
+            self.get_logger().info("✅ Using cached PMF result: ground_only.las")
 
-        las = laspy.read(las_path)
-        x, y, z = las.x, las.y, las.z
+        las_all = laspy.read(full_las_path)
+        x_all, y_all, z_all = las_all.x, las_all.y, las_all.z
 
-        if len(x) == 0:
-            self.get_logger().error("❌ LAS file is empty!")
-            return
+        self.x_offset = np.min(x_all)
+        self.y_offset = np.min(y_all)
+        self.get_logger().info(f"📍 Normalizing coordinates with offsets: X={self.x_offset}, Y={self.y_offset}")
 
-        self.get_logger().info(f"✅ Loaded {len(x)} points")
+        las_ground = laspy.read(ground_las_path)
+        xg, yg, zg = las_ground.x, las_ground.y, las_ground.z
 
-        clusters = self.fake_clustering(x, y, z, cell_size=3.0)
-        self.get_logger().info(f"🌲 Found {len(clusters)} tree clusters")
+        grid_res = 1.0
+        xi = np.arange(min(x_all), max(x_all), grid_res)
+        yi = np.arange(min(y_all), max(y_all), grid_res)
+        xi, yi = np.meshgrid(xi, yi)
 
+        dsm = griddata((x_all, y_all), z_all, (xi, yi), method='nearest')
+        dtm = griddata((xg, yg), zg, (xi, yi), method='nearest')
+        chm = dsm - dtm
+        chm[chm < 0] = 0
+        chm[chm > 100] = 100
 
-        marker_array = MarkerArray()
+        self.plot_chm_figures(dtm, dsm, chm)
+        self.visualize_clusters(x_all, y_all, z_all)
+
+    def run_pmf_pipeline(self, input_path, output_path, pipeline_path):
+        pipeline = {
+            "pipeline": [
+                {"type": "readers.las", "filename": input_path},
+                {"type": "filters.pmf", "max_window_size": 33, "slope": 1.0,
+                 "initial_distance": 0.5, "max_distance": 2.5},
+                {"type": "filters.range", "limits": "Classification[2:2]"},
+                {"type": "writers.las", "filename": output_path}
+            ]
+        }
+        with open(pipeline_path, 'w') as f:
+            json.dump(pipeline, f, indent=2)
+
+        self.get_logger().info("🔍 Running PDAL PMF pipeline...")
+        subprocess.run(["pdal", "pipeline", pipeline_path], check=True)
+        self.get_logger().info(f"✅ PMF ground points written to {output_path}")
+
+        try:
+            las_ground = laspy.read(output_path)
+            self.get_logger().info(f"📦 Total ground points written: {len(las_ground.points):,}")
+        except Exception as e:
+            self.get_logger().warn(f"⚠️ Couldn't read PMF output: {e}")
+
+    def visualize_clusters(self, x, y, z):
+        self.get_logger().info(f"📊 Running DBSCAN on {len(x)} points...")
+        clusters = self.dbscan_clustering(x, y, z)
+
+        centers = []
+        heights = []
+        biomasses = []
+
         for cluster_id, points in clusters.items():
+            if len(points) < 3:
+                continue
             height = np.max(points[:, 2]) - np.min(points[:, 2])
             crown = MultiPoint(points[:, :2]).convex_hull
             area = crown.area if crown.is_valid else 0.0
-
             biomass = 0.05 * (height ** 2.5) * (area ** 1.0)
-
-            marker = Marker()
-            marker.header = Header()
-            marker.header.frame_id = "map"
-            marker.id = cluster_id
-            marker.type = Marker.CYLINDER
-            marker.action = Marker.ADD
             center = np.mean(points, axis=0)
-            marker.pose.position.x = float(center[0])
-            marker.pose.position.y = float(center[1])
-            marker.pose.position.z = float(center[2])
-            self.get_logger().info(f"🧭 Marker {cluster_id}: x={center[0]:.2f}, y={center[1]:.2f}, z={center[2]:.2f}, height={height:.2f}, biomass={biomass:.2f}kg")
-            marker.scale.x = 1.5
-            marker.scale.y = 1.5
-            marker.scale.z = float(height)
-            marker.color.r = 0.0
-            marker.color.g = 1.0
-            marker.color.b = 0.0
-            marker.color.a = 0.8
-            marker.text = f'{biomass:.1f}kg'
-            marker_array.markers.append(marker)
-            # Text label marker for biomass
-            text_marker = Marker()
-            text_marker.header.frame_id = "map"
-            text_marker.id = cluster_id + 100000  # make sure ID is unique
-            text_marker.type = Marker.TEXT_VIEW_FACING
-            text_marker.action = Marker.ADD
-            text_marker.pose.position.x = float(center[0])
-            text_marker.pose.position.y = float(center[1])
-            text_marker.pose.position.z = float(center[2] + height + 5.0)
-            text_marker.scale.z = 5.0  # height of the text
-            text_marker.color.r = 1.0
-            text_marker.color.g = 1.0
-            text_marker.color.b = 1.0
-            text_marker.color.a = 1.0
-            text_marker.text = f'{biomass:.0f} kg'
+            centers.append(center)
+            heights.append(height)
+            biomasses.append(biomass)
 
-            marker_array.markers.append(text_marker)
+        x_vals = [c[0] - self.x_offset for c in centers]
+        y_vals = [c[1] - self.y_offset for c in centers]
+        z_vals = [c[2] for c in centers]
 
-        self.publisher.publish(marker_array)
-        self.get_logger().info(f'Published {len(marker_array.markers)} tree markers')
+        fig = px.scatter_3d(
+            x=x_vals, y=y_vals, z=z_vals,
+            color=biomasses,
+            size=heights,
+            color_continuous_scale='YlGn',
+            labels={'color': 'Biomass (kg)', 'size': 'Height (m)'},
+            hover_data={
+                'X': x_vals,
+                'Y': y_vals,
+                'Z': z_vals,
+                'Biomass': biomasses,
+                'Height': heights,
+            },
+            title='3D Tree Biomass Visualization'
+        )
 
-    def fake_clustering(self, x, y, z, cell_size=5.0, min_points=50):
-        from collections import defaultdict
-        grid = defaultdict(list)
+        fig.update_traces(marker=dict(opacity=0.8, line=dict(width=0)))
+        fig.show()
 
-        for i in range(len(x)):
-            key = (int(x[i] // cell_size), int(y[i] // cell_size))
-            grid[key].append([x[i], y[i], z[i]])
+    def dbscan_clustering(self, x, y, z, eps=4.0, min_samples=5):
+        height_threshold = np.percentile(z, 90)
+        mask = z > height_threshold
+        x, y, z = x[mask], y[mask], z[mask]
 
-        cluster_count = 0
-        clustered = {}
+        self.get_logger().info(f"🪓 Filtered to top 10% — {len(x):,} points remaining")
 
-        for i, pts in enumerate(grid.values()):
-            if len(pts) >= min_points:
-                clustered[i] = np.array(pts)
-                cluster_count += 1
+        if len(x) > 200_000:
+            idx = np.random.choice(len(x), size=200_000, replace=False)
+            x, y, z = x[idx], y[idx], z[idx]
+            self.get_logger().info(f"🎯 Downsampled to 200,000 points for DBSCAN")
 
-        self.get_logger().info(f"🔢 Grid cells checked: {len(grid)}, kept: {cluster_count}")
-        return clustered
+        coords = np.vstack((x, y, z)).T
+        clustering = DBSCAN(eps=eps, min_samples=min_samples).fit(coords)
+        labels = clustering.labels_
+        clusters = defaultdict(list)
 
+        for idx, label in enumerate(labels):
+            if label != -1:
+                clusters[label].append(coords[idx])
 
+        self.get_logger().info(f"🔢 DBSCAN found {len(clusters)} clusters")
+        return {k: np.array(v) for k, v in clusters.items()}
+
+    def plot_chm_figures(self, dtm, dsm, chm):
+        plt.figure(figsize=(16, 4))
+        plt.subplot(1, 3, 1)
+        plt.imshow(dtm, cmap='terrain')
+        plt.title("DTM (Ground, PMF)")
+        plt.colorbar()
+
+        plt.subplot(1, 3, 2)
+        plt.imshow(dsm, cmap='gist_earth')
+        plt.title("DSM (Surface)")
+        plt.colorbar()
+
+        plt.subplot(1, 3, 3)
+        plt.imshow(chm, cmap='YlGn')
+        plt.title("CHM (Canopy Height)")
+        plt.colorbar()
+
+        plt.tight_layout()
+        plt.show()
 
 def main(args=None):
     rclpy.init(args=args)
-    node = BiomassNode()
+    node = BiomassVisualizerNode()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
-
