@@ -1,0 +1,30 @@
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Tree Biomass Markers
+      Topic: /tree_biomass_markers
+      Enabled: true
+    - Class: rviz_default_plugins/Axes
+      Name: Axes
+      Enabled: true
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+  Global Options:
+    Fixed Frame: map
+    Background Color: 48; 48; 48
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/Measure
+    - Class: rviz_default_plugins/SetInitialPose
+    - Class: rviz_default_plugins/SetGoal
+  View Controllers:
+    - Class: rviz_default_plugins/Orbit
+      Focal Point: 0; 0; 0
+      Distance: 3000
+      Pitch: 0.8
+      Yaw: 0.5
+      Name: Orbit (Top)
